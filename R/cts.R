@@ -155,6 +155,7 @@ cts_from <- function(verbose = TRUE){
 #'
 #' Return a list of all possible ids that can be used in the 'to' argument
 #' @import jsonlite
+#' @import httr
 #' @param verbose logical; should a verbose output be printed on the console?
 #' @return a character vector.
 #' @author Eduard Szoecs, \email{eduardszoecs@@gmail.com}
@@ -170,5 +171,6 @@ cts_from <- function(verbose = TRUE){
 #' cts_from()
 #' }
 cts_to <- function(verbose = TRUE){
-  fromJSON('http://cts.fiehnlab.ucdavis.edu/service/conversion/toValues')
+  qurl <- "https://cts.fiehnlab.ucdavis.edu/rest/toValues"
+  res <- POST(qurl)
 }
