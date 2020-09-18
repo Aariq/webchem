@@ -7,7 +7,7 @@ on:
     branches:
       - master
 
-name: test-coverage
+name: check-pkgdown
 
 jobs:
   check-pkgdown:
@@ -17,6 +17,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: 'release'
+      - uses: r-lib/actions/setup-pandoc@master
 
       - name: Query dependencies
         run: |
