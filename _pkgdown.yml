@@ -43,7 +43,6 @@ reference:
 - contents:
   - as.cas
   - starts_with("is.")
-  - build_aw_idx
   - cs_check_key
   - cs_control
   - extractors
@@ -57,7 +56,9 @@ reference:
 - title: Package
 - contents:
   - webchem
-
+- title: testing
+- contents:
+  - N
 # build locally with:
 # template <- list(package = "rotemplate")
 # pkgdown::build_site(devel = FALSE, override = list(template = template))
