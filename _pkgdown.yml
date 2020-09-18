@@ -56,9 +56,7 @@ reference:
 - title: Package
 - contents:
   - webchem
-- title: testing
-- contents:
-  - N
+
 # build locally with:
 # template <- list(package = "rotemplate")
 # pkgdown::build_site(devel = FALSE, override = list(template = template))
