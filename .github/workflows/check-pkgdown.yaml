@@ -1,0 +1,46 @@
+on:
+  push:
+    branches:
+      - master
+      - actions #for testing
+  pull_request:
+    branches:
+      - master
+
+name: test-coverage
+
+jobs:
+  check-pkgdown:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: 'release'
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          install.packages("pkgdown")
+          remotes::install_github("ropensci-org/rotemplate")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Test pkgdown build
+        run: |
+          template <- list(package = "rotemplate")
+          pkgdown::build_site(devel = FALSE, override = list(template = template))
+        shell: Rscript {0}
